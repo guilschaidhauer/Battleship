@@ -1,9 +1,38 @@
 #include "stdafx.h"
 #include <SFML/Graphics.hpp>
+#include "Server.h"
+#include "Client.h"
+
+using namespace std;
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(800, 200), "Hello World");
+	string connectionType;
+
+	cout << "Enter 's' to connect as a server, Enter for '1' for client 1 and '2' for client 2" << endl;
+	getline(cin, connectionType);
+
+	if (connectionType == "s")
+	{
+		Server server;
+		server.initServer();
+		server.sendToClient1();
+		server.sendToClient2();
+	}
+	else if (connectionType == "1")
+	{
+		Client client;
+		client.initClient(2000);
+		client.receiveFromServer();
+	}
+	else if (connectionType == "2")
+	{
+		Client client;
+		client.initClient(2001);
+		client.receiveFromServer();
+	}
+
+	/*sf::RenderWindow window(sf::VideoMode(800, 200), "Hello World");
 
 	sf::Text message;
 
@@ -33,7 +62,8 @@ int main()
 		window.draw(message);
 
 		window.display();
-	}
+	}*/
 
+	system("pause");
 	return 0;
 }
