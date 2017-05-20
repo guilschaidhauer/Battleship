@@ -16,8 +16,8 @@ int main()
 	{
 		Server server;
 		server.initServer();
-		server.sendToClient1();
-		server.sendToClient2();
+		server.callSendToClient(1, "Hello Client 1");
+		server.callSendToClient(2, "Hello Client 2");
 	}
 	else if (connectionType == "1")
 	{

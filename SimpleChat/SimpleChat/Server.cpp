@@ -32,14 +32,15 @@ void Server::listenToClient2()
 
 }
 
-void Server::sendToClient1()
+void Server::callSendToClient(int clientIndex, string text)
 {
-	string text = "Hello client 1";
-	socket1.send(text.c_str(), text.size() + 1);
+	if (clientIndex == 1)
+		sendToClient(&socket1, text);
+	else if (clientIndex == 2)
+		sendToClient(&socket2, text);
 }
 
-void Server::sendToClient2()
+void Server::sendToClient(sf::TcpSocket * socket, string text)
 {
-	string text = "Hello client 2";
-	socket2.send(text.c_str(), text.size() + 1);
+	socket->send(text.c_str(), text.size() + 1);
 }

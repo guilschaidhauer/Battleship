@@ -2,6 +2,8 @@
 #include "GameManager.h"
 #include "Client.h"
 
+using namespace std;
+
 class Server
 {
 public:
@@ -13,12 +15,11 @@ public:
 	void listenToClient1();
 	void listenToClient2();
 
-	void sendToClient1();
-	void sendToClient2();
+	void callSendToClient(int clientIndex, string text);
+	void sendToClient(sf::TcpSocket *socket, string text);
 
 private:
 	GameManager gameManager;
-	Client client1, client2;
 
 	sf::IpAddress ip;;
 	sf::TcpSocket socket1, socket2;
