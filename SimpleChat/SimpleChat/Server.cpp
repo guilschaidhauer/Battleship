@@ -22,6 +22,12 @@ void Server::initServer()
 	listener2.accept(socket2);
 }
 
+void Server::initPlayersBattleships(vector<Battleship> player1Battleships, vector<Battleship> player2Battleships)
+{
+	gameManager.getPlayer1().initBattleships(player1Battleships);
+	gameManager.getPlayer2().initBattleships(player2Battleships);
+}
+
 void Server::listenToClient1()
 {
 

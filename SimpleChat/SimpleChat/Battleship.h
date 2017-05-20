@@ -4,7 +4,7 @@
 using namespace std;
 
 struct position {
-	char x, y;
+	int x, y;
 	bool alive;
 };
 
@@ -14,8 +14,10 @@ public:
 	Battleship();
 	~Battleship();
 
+	vector<position> getPositions() { return positions; };
+
 private:
 	bool alive;
-	vector<position> posistions;
+	vector<position> positions;
 };
 

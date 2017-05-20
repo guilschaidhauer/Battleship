@@ -11,6 +11,7 @@ public:
 	~Server();
 
 	void initServer();
+	void initPlayersBattleships(vector<Battleship> player1Battleships, vector<Battleship> player2Battleships);
 
 	void listenToClient1();
 	void listenToClient2();
