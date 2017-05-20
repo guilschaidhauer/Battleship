@@ -19,6 +19,9 @@ public:
 	void callSendToClient(int clientIndex, string text);
 	void sendToClient(sf::TcpSocket *socket, string text);
 
+	void callSendBattleshipsToClient(int clientIndex, vector<Battleship> battleships);
+	void setClientBattleships(sf::TcpSocket *socket, vector<Battleship> battleships);
+
 private:
 	GameManager gameManager;
 

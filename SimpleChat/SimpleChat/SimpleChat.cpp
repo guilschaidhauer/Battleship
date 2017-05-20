@@ -8,6 +8,12 @@ using namespace std;
 Server server;
 Client client1, client2;
 
+//This should be stored in the gamemamager I think
+Player player;
+
+vector<Battleship> battleships1;
+vector<Battleship> battleships2;
+
 void drawMatrixFromBattleships(vector<Battleship> battleships)
 {
 	char matrix[10][10];
@@ -43,12 +49,9 @@ void drawMatrixFromBattleships(vector<Battleship> battleships)
 //Não usar essa função. Usar interface para criar as battleships a setar elas.
 void initPlayers()
 {
-	vector<Battleship> battleships1;
-	vector<Battleship> battleships2;
-
 	Battleship battleship1;
-
 	position position;
+
 	position.x = 5;
 	position.y = 0;
 	position.alive = true;
@@ -75,16 +78,23 @@ int main()
 		server.initServer();
 		server.callSendToClient(1, "Hello Client 1");
 		server.callSendToClient(2, "Hello Client 2");
+
+		server.callSendBattleshipsToClient(1, battleships1);
+		server.callSendBattleshipsToClient(2, battleships1);
 	}
 	else if (connectionType == "1")
 	{
 		client1.initClient(2000);
 		client1.receiveFromServer();
+		client1.setPlayer(&player);
+		client1.receivePositionFromServerAndAddToPlayerBattleship();
 	}
 	else if (connectionType == "2")
 	{
 		client2.initClient(2001);
 		client2.receiveFromServer();
+		client2.setPlayer(&player);
+		client2.receivePositionFromServerAndAddToPlayerBattleship();
 	}
 
 	/*sf::RenderWindow window(sf::VideoMode(800, 200), "Hello World");

@@ -50,3 +50,21 @@ void Server::sendToClient(sf::TcpSocket * socket, string text)
 {
 	socket->send(text.c_str(), text.size() + 1);
 }
+
+void Server::callSendBattleshipsToClient(int clientIndex, vector<Battleship> battleships)
+{
+	if (clientIndex == 1)
+		setClientBattleships(&socket1, battleships);
+	else if (clientIndex == 2)
+		setClientBattleships(&socket2, battleships);
+}
+
+void Server::setClientBattleships(sf::TcpSocket *socket, vector<Battleship> battleships)
+{
+	position position = battleships.at(0).getPositions().at(0);
+
+	sf::Packet packet;
+	packet << position.alive << position.x << position.y;
+
+	socket->send(packet);
+}

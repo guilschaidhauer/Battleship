@@ -4,6 +4,7 @@
 #include <string>
 #include <Windows.h>
 #include <cstdlib>
+#include "Player.h"
 
 using namespace std;
 
@@ -15,6 +16,9 @@ public:
 
 	void initClient(int port);
 	void receiveFromServer();
+	void receivePositionFromServerAndAddToPlayerBattleship();
+
+	void setPlayer(Player* newPlayer) { player = newPlayer; };
 
 private:
 	sf::TcpSocket socket;
@@ -22,5 +26,7 @@ private:
 
 	char buffer[2000];
 	size_t received;
+
+	Player *player;
 };
 
