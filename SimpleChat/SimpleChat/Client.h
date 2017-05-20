@@ -20,6 +20,8 @@ public:
 
 	void setPlayer(Player* newPlayer) { player = newPlayer; };
 
+	void addPositionToPlayerBattleships(int index, Position newPosition);
+
 private:
 	sf::TcpSocket socket;
 	sf::IpAddress ip;

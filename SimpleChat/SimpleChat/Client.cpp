@@ -25,15 +25,27 @@ void Client::receiveFromServer()
 
 void Client::receivePositionFromServerAndAddToPlayerBattleship()
 {
-	// Receive the packet at the other end
 	sf::Packet packet;
 	socket.receive(packet);
 
-	// Extract the variables contained in the packet
-	position position;
-	double d;
-	if (packet >> position.alive >> position.x >> position.y)
+	Position position;
+	int index;
+	if (packet >> position.alive >> position.x >> position.y >> index)
 	{
-		cout << position.alive << " - " << position.x << " - " << position.y << endl;
+		addPositionToPlayerBattleships(index, position);
+	}
+}
+
+void Client::addPositionToPlayerBattleships(int index, Position newPosition)
+{
+	if (index >= 0)
+	{
+
+	}
+	else
+	{
+		Battleship newBattleship;
+		newBattleship.addPosition(newPosition);
+		player->getBattleships()->push_back(newBattleship);
 	}
 }

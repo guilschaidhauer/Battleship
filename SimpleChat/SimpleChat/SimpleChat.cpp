@@ -28,7 +28,7 @@ void drawMatrixFromBattleships(vector<Battleship> battleships)
 
 	for (int i = 0; i < battleships.size(); i++)
 	{
-		vector<position> positions = battleships.at(i).getPositions();
+		vector<Position> positions = battleships.at(i).getPositions();
 
 		for (int j = 0; j < positions.size(); j++)
 		{
@@ -49,8 +49,8 @@ void drawMatrixFromBattleships(vector<Battleship> battleships)
 //Não usar essa função. Usar interface para criar as battleships a setar elas.
 void initPlayers()
 {
-	Battleship battleship1;
-	position position;
+	Battleship battleship1, battleship2;
+	Position position;
 
 	position.x = 5;
 	position.y = 0;
@@ -59,9 +59,16 @@ void initPlayers()
 	battleship1.addPosition(position);
 	battleships1.push_back(battleship1);
 
+	position.x = 6;
+	position.y = 5;
+	position.alive = true;
+
+	battleship2.addPosition(position);
+	battleships2.push_back(battleship2);
+
 	server.initPlayersBattleships(battleships1, battleships2);
 
-	drawMatrixFromBattleships(battleships1);
+	//drawMatrixFromBattleships(battleships1);
 }
 
 int main()
@@ -70,7 +77,7 @@ int main()
 
 	initPlayers();
 
-	cout << "Enter 's' to connect as a server, Enter for '1' for client 1 and '2' for client 2" << endl;
+	cout << "Type in:" << endl;
 	getline(cin, connectionType);
 
 	if (connectionType == "s")
@@ -80,7 +87,7 @@ int main()
 		server.callSendToClient(2, "Hello Client 2");
 
 		server.callSendBattleshipsToClient(1, battleships1);
-		server.callSendBattleshipsToClient(2, battleships1);
+		server.callSendBattleshipsToClient(2, battleships2);
 	}
 	else if (connectionType == "1")
 	{
@@ -88,6 +95,7 @@ int main()
 		client1.receiveFromServer();
 		client1.setPlayer(&player);
 		client1.receivePositionFromServerAndAddToPlayerBattleship();
+		drawMatrixFromBattleships(*player.getBattleships());
 	}
 	else if (connectionType == "2")
 	{
@@ -95,6 +103,7 @@ int main()
 		client2.receiveFromServer();
 		client2.setPlayer(&player);
 		client2.receivePositionFromServerAndAddToPlayerBattleship();
+		drawMatrixFromBattleships(*player.getBattleships());
 	}
 
 	/*sf::RenderWindow window(sf::VideoMode(800, 200), "Hello World");

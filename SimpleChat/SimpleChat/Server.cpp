@@ -61,10 +61,10 @@ void Server::callSendBattleshipsToClient(int clientIndex, vector<Battleship> bat
 
 void Server::setClientBattleships(sf::TcpSocket *socket, vector<Battleship> battleships)
 {
-	position position = battleships.at(0).getPositions().at(0);
+	Position position = battleships.at(0).getPositions().at(0);
 
 	sf::Packet packet;
-	packet << position.alive << position.x << position.y;
+	packet << position.alive << position.x << position.y << -1;
 
 	socket->send(packet);
 }

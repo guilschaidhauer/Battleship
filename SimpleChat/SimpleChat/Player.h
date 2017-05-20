@@ -9,6 +9,8 @@ public:
 
 	void initBattleships(vector<Battleship> newBattleships);
 
+	vector<Battleship>* getBattleships() { return &battleships; };
+
 private:
 	vector<Battleship> battleships;
 };
