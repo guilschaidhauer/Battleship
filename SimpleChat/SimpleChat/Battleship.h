@@ -15,6 +15,7 @@ public:
 	~Battleship();
 
 	vector<position> getPositions() { return positions; };
+	void addPosition(position position) { positions.push_back(position); };
 
 private:
 	bool alive;

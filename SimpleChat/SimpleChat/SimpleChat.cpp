@@ -16,7 +16,7 @@ void drawMatrixFromBattleships(vector<Battleship> battleships)
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			matrix[i][j] = '#';
+			matrix[j][i] = '#';
 		}
 	}
 
@@ -34,7 +34,7 @@ void drawMatrixFromBattleships(vector<Battleship> battleships)
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			cout << matrix[i][j] << " ";
+			cout << matrix[j][i] << " ";
 		}
 		cout << endl;
 	}
@@ -46,9 +46,17 @@ void initPlayers()
 	vector<Battleship> battleships1;
 	vector<Battleship> battleships2;
 
-	server.initPlayersBattleships(battleships1, battleships2);
+	Battleship battleship1;
 
-	Battleship battleship;
+	position position;
+	position.x = 5;
+	position.y = 0;
+	position.alive = true;
+	
+	battleship1.addPosition(position);
+	battleships1.push_back(battleship1);
+
+	server.initPlayersBattleships(battleships1, battleships2);
 
 	drawMatrixFromBattleships(battleships1);
 }
