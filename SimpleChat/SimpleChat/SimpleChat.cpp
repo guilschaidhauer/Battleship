@@ -2,14 +2,14 @@
 #include <SFML/Graphics.hpp>
 #include "Server.h"
 #include "Client.h"
+#include "GameManager.h"
 
 using namespace std;
 
 Server server;
 Client client1, client2;
 
-//This should be stored in the gamemamager I think
-Player player;
+GameManager gameManager;
 
 vector<Battleship> battleships1;
 vector<Battleship> battleships2;
@@ -93,17 +93,17 @@ int main()
 	{
 		client1.initClient(2000);
 		client1.receiveFromServer();
-		client1.setPlayer(&player);
+		client1.setPlayer(gameManager.getPlayer1());
 		client1.receivePositionFromServerAndAddToPlayerBattleship();
-		drawMatrixFromBattleships(*player.getBattleships());
+		drawMatrixFromBattleships(*gameManager.getPlayer1()->getBattleships());
 	}
 	else if (connectionType == "2")
 	{
 		client2.initClient(2001);
 		client2.receiveFromServer();
-		client2.setPlayer(&player);
+		client2.setPlayer(gameManager.getPlayer2());
 		client2.receivePositionFromServerAndAddToPlayerBattleship();
-		drawMatrixFromBattleships(*player.getBattleships());
+		drawMatrixFromBattleships(*gameManager.getPlayer2()->getBattleships());
 	}
 
 	/*sf::RenderWindow window(sf::VideoMode(800, 200), "Hello World");

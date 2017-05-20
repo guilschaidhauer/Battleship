@@ -24,8 +24,8 @@ void Server::initServer()
 
 void Server::initPlayersBattleships(vector<Battleship> player1Battleships, vector<Battleship> player2Battleships)
 {
-	gameManager.getPlayer1().initBattleships(player1Battleships);
-	gameManager.getPlayer2().initBattleships(player2Battleships);
+	//gameManager.getPlayer1().initBattleships(player1Battleships);
+	//gameManager.getPlayer2().initBattleships(player2Battleships);
 }
 
 void Server::listenToClient1()
@@ -61,6 +61,7 @@ void Server::callSendBattleshipsToClient(int clientIndex, vector<Battleship> bat
 
 void Server::setClientBattleships(sf::TcpSocket *socket, vector<Battleship> battleships)
 {
+	//Figure out a way to set all battleships
 	Position position = battleships.at(0).getPositions().at(0);
 
 	sf::Packet packet;
