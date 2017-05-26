@@ -1,5 +1,4 @@
 #pragma once
-#include <SFML/Network.hpp>
 #include <iostream>
 #include <string>
 #include <Windows.h>
@@ -14,6 +13,7 @@ public:
 	Client();
 	~Client();
 
+
 	void initClient(int port);
 	void receiveFromServer();
 	void receivePositionFromServerAndAddToPlayerBattleship();
@@ -21,6 +21,12 @@ public:
 	void setPlayer(Player* newPlayer) { player = newPlayer; };
 
 	void addPositionToPlayerBattleships(int index, Position newPosition);
+
+	//void callSendBattleshipsToServer(int clientIndex, vector<Battleship> battleships);
+	//void setClientBattleships(sf::TcpSocket *socket, vector<Battleship> battleships);
+
+	void callSendBattleshipPositionToServer(Position position, int posIndex);
+	//void sendBattleshipPositionToClient(sf::TcpSocket *socket, Position position, int posIndex);
 
 private:
 	sf::TcpSocket socket;

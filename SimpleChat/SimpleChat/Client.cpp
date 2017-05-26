@@ -40,7 +40,7 @@ void Client::addPositionToPlayerBattleships(int index, Position newPosition)
 {
 	if (index >= 0)
 	{
-
+		player->getBattleships()->at(index).addPosition(newPosition);
 	}
 	else
 	{
@@ -48,4 +48,12 @@ void Client::addPositionToPlayerBattleships(int index, Position newPosition)
 		newBattleship.addPosition(newPosition);
 		player->getBattleships()->push_back(newBattleship);
 	}
+}
+
+void Client::callSendBattleshipPositionToServer(Position position, int posIndex)
+{
+	sf::Packet packet;
+	packet << position.alive << position.x << position.y << posIndex;
+
+	socket.send(packet);
 }

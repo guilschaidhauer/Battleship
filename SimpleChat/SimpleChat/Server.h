@@ -10,6 +10,8 @@ public:
 	Server();
 	~Server();
 
+	GameManager *getGameManager() { return &gameManager; };
+
 	void initServer();
 	void initPlayersBattleships(vector<Battleship> player1Battleships, vector<Battleship> player2Battleships);
 
@@ -21,6 +23,11 @@ public:
 
 	void callSendBattleshipsToClient(int clientIndex, vector<Battleship> battleships);
 	void setClientBattleships(sf::TcpSocket *socket, vector<Battleship> battleships);
+
+	void callSendBattleshipPositionToClient(int clientIndex, Position position, int posIndex);
+	void sendBattleshipPositionToClient(sf::TcpSocket *socket, Position position, int posIndex);
+
+	void addPositionToPlayerBattleships(int clientIndex);
 
 private:
 	GameManager gameManager;

@@ -69,3 +69,43 @@ void Server::setClientBattleships(sf::TcpSocket *socket, vector<Battleship> batt
 
 	socket->send(packet);
 }
+
+void Server::callSendBattleshipPositionToClient(int clientIndex, Position position, int posIndex)
+{
+	if (clientIndex == 1)
+		sendBattleshipPositionToClient(&socket1, position, posIndex);
+	else if (clientIndex == 2)
+		sendBattleshipPositionToClient(&socket2, position, posIndex);
+}
+
+void Server::sendBattleshipPositionToClient(sf::TcpSocket * socket, Position position, int posIndex)
+{
+	sf::Packet packet;
+	packet << position.alive << position.x << position.y << posIndex;
+
+	socket->send(packet);
+}
+
+void Server::addPositionToPlayerBattleships(int clientIndex)
+{
+	sf::Packet packet;
+
+	sf::TcpSocket *playerSocket;
+
+	if (clientIndex == 1)
+		playerSocket = &socket1;
+	else 
+		playerSocket = &socket2;
+
+	playerSocket->receive(packet);
+
+	Position position;
+	int index;
+	if (packet >> position.alive >> position.x >> position.y >> index)
+	{
+		if (clientIndex == 1)
+			gameManager.getPlayer1()->addPositionToBattleships(index, position);
+		else 
+			gameManager.getPlayer2()->addPositionToBattleships(index, position);
+	}
+}
