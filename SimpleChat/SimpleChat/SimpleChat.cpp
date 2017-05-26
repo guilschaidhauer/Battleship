@@ -55,30 +55,34 @@ void initPlayers()
 	position.x = 5;
 	position.y = 0;
 	position.alive = true;
-	
 	battleship1.addPosition(position);
-	battleships1.push_back(battleship1);
-
-	position.x = 6;
-	position.y = 5;
-	position.alive = true;
-
-	battleship2.addPosition(position);
-	battleships2.push_back(battleship2);
 
 	position.x = 5;
 	position.y = 1;
 	position.alive = true;
-
 	battleship1.addPosition(position);
+
+	position.x = 4;
+	position.y = 1;
+	position.alive = true;
+	battleship1.addPosition(position);
+
 	battleships1.push_back(battleship1);
+
+	///=============================
+
+	position.x = 6;
+	position.y = 5;
+	position.alive = true;
+	battleship2.addPosition(position);
 
 	position.x = 6;
 	position.y = 4;
 	position.alive = true;
-
 	battleship2.addPosition(position);
+
 	battleships2.push_back(battleship2);
+
 
 	server.initPlayersBattleships(battleships1, battleships2);
 
@@ -103,6 +107,9 @@ int main()
 
 		server.addPositionToPlayerBattleships(1);
 		server.addPositionToPlayerBattleships(2);
+		server.addPositionToPlayerBattleships(1);
+		server.addPositionToPlayerBattleships(2);
+		server.addPositionToPlayerBattleships(1);
 
 		cout << endl << "Client 1:" << endl;
 		drawMatrixFromBattleships(gameManager->getPlayer1()->getBattleships());
@@ -115,6 +122,8 @@ int main()
 		client1.receiveFromServer();
 		client1.setPlayer(gameManager->getPlayer1());
 		client1.callSendBattleshipPositionToServer(battleships1.at(0).getPositions().at(0), -1);
+		client1.callSendBattleshipPositionToServer(battleships1.at(0).getPositions().at(1), 0);
+		client1.callSendBattleshipPositionToServer(battleships1.at(0).getPositions().at(2), 0);
 	}
 	else if (connectionType == "2")
 	{
@@ -122,6 +131,7 @@ int main()
 		client2.receiveFromServer();
 		client2.setPlayer(gameManager->getPlayer2());
 		client2.callSendBattleshipPositionToServer(battleships2.at(0).getPositions().at(0), -1);
+		client2.callSendBattleshipPositionToServer(battleships2.at(0).getPositions().at(1), 0);
 	}
 
 	/*sf::RenderWindow window(sf::VideoMode(800, 200), "Hello World");

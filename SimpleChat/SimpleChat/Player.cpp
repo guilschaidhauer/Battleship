@@ -20,7 +20,7 @@ void Player::addPositionToBattleships(int index, Position position)
 {
 	if (index >= 0)
 	{
-		battleships.at(index).addPosition(position);
+		battleships.at(battleships.size()-1).addPosition(position);
 	}
 	else
 	{
