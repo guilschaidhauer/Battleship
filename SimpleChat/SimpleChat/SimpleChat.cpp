@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include <SFML/Graphics.hpp>
+#include "SFML/Graphics.hpp"
 #include "Server.h"
 #include "Client.h"
 #include "GameManager.h"
@@ -13,6 +13,124 @@ GameManager *gameManager;
 
 vector<Battleship> battleships1;
 vector<Battleship> battleships2;
+
+
+//SFML stuff
+
+int height = 900, width = 800, xSize = 32, ySize = 32;
+sf::RenderWindow sfmlWindow(sf::VideoMode(width, height, 32), "XXXX - Redes 2017/1");
+
+sf::Texture spaceshipTexture, explosionTexture, spaceTexture, bgTexture, gameOverTexture, creditsTexture;
+sf::Sprite spaceshipSprite, explosionSprite, spaceSprite, menuSprite, bgSprite, gOverSprite, creditsSprite;
+
+float timerTransition, transitionDelay = 0.3f;
+sf::Clock myClock;
+
+sf::Font MyFont;
+
+void loadTextures() {
+	spaceshipTexture.loadFromFile("images\\spaceship.png");
+	spaceTexture.loadFromFile("images\\space.png");
+	explosionTexture.loadFromFile("images\\explosion.png");
+	bgTexture.loadFromFile("images\\bg.png");
+
+}
+
+
+int offset = 5, initialX = 150, initialY = 20;
+
+void drawMatrix(vector<Battleship> *battleships) {
+	
+	char matrix[10][10];
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			matrix[j][i] = '#';
+		}
+	}
+	for (int i = 0; i < battleships->size(); i++)
+	{
+		vector<Position> positions = battleships->at(i).getPositions();
+
+		for (int j = 0; j < positions.size(); j++)
+		{
+			matrix[positions.at(j).x][positions.at(j).y] = 'X';
+		}
+	}
+
+
+	int x = 0, y = 0;
+	sf::Sprite currentSprite;
+	for (int i = 0; i < 10; i++)
+	{
+		currentSprite = spaceSprite;
+		for (int j = 0; j < 10; j++)
+		{
+			x = initialX + (j * 40) + (offset * j);
+			y = initialY + (i * 35) + offset;
+			spaceSprite.setPosition(x, y);
+			sfmlWindow.draw(spaceSprite);
+			if (matrix[j][i] != '#') {
+				switch (matrix[j][i])
+				{
+				case 'X': {
+					currentSprite = spaceshipSprite;
+				}
+						break;
+				case 2: {
+					currentSprite = explosionSprite;
+				}
+						break;
+				}
+				x += 5;
+				currentSprite.setPosition(x, y);
+				sfmlWindow.draw(currentSprite);
+			}
+		}
+	}
+}
+
+void keyboardFunc(sf::Event event) {
+	switch (event.key.code)
+	{
+	case sf::Keyboard::Escape:
+		sfmlWindow.close();
+		break;
+	}
+
+}
+
+void mouseFunc(sf::Event event) {
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		int mouseX = sf::Mouse::getPosition(sfmlWindow).x;
+		int mouseY = sf::Mouse::getPosition(sfmlWindow).y;
+
+
+	}
+}
+
+void gameLoop() {
+
+	sfmlWindow.draw(bgSprite);
+
+	sf::Text P1("Player 1", MyFont, 30);
+
+	sf::Text P2("Player 2", MyFont, 30);
+
+	P1.setPosition(10, 0);
+	P2.setPosition(10,420);
+	sfmlWindow.draw(P1);
+	sfmlWindow.draw(P2);
+
+	initialY = 30;
+	drawMatrix(gameManager->getPlayer1()->getBattleships());
+	initialY = 450;
+	drawMatrix(gameManager->getPlayer2()->getBattleships());
+	
+
+}
 
 void drawMatrixFromBattleships(vector<Battleship> *battleships)
 {
@@ -91,6 +209,7 @@ void initPlayers()
 
 int main()
 {
+	sfmlWindow.setVisible(false);
 	string connectionType;
 
 	initPlayers();
@@ -134,37 +253,79 @@ int main()
 		client2.callSendBattleshipPositionToServer(battleships2.at(0).getPositions().at(1), 0);
 	}
 
-	/*sf::RenderWindow window(sf::VideoMode(800, 200), "Hello World");
-
-	sf::Text message;
-
-	sf::Font font;
-	font.loadFromFile("28 Days Later.ttf");
-
-	message.setFont(font);
-
-	message.setString("Hello world");
-
-	message.setCharacterSize(100);
-
-	message.setFillColor(sf::Color::White);
-
-	while (window.isOpen())
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
+	//SFML stuff
+	if (connectionType == "s") {
+		sfmlWindow.setVisible(true);
+		if (!MyFont.loadFromFile("fonts\\DimboRegular.ttf"))
 		{
-			if (event.type == sf::Event::Closed)
-				// Someone closed the window- bye
-				window.close();
+			// Error...
 		}
+		/** Prepare the window */
+		sfmlWindow.setFramerateLimit(60);
 
-		window.clear();
 
-		window.draw(message);
+		/** Prepare textures */
+		loadTextures();
+		//	menuSprite.setTexture(menuTexture);
+		bgSprite.setTexture(bgTexture);
+		spaceSprite.setTexture(spaceTexture);
+		spaceshipSprite.setTexture(spaceshipTexture);
+		explosionSprite.setTexture(explosionTexture);
+		//gOverSprite.setTexture(gameOverTexture);
+		//creditsSprite.setTexture(creditsTexture);
 
-		window.display();
-	}*/
+		int current = 1;
+		while (sfmlWindow.isOpen())
+		{
+			sf::Event event;
+			while (sfmlWindow.pollEvent(event))
+			{
+				switch (event.type)
+				{
+				case sf::Event::Closed:
+					sfmlWindow.close();
+					break;
+				case sf::Event::KeyPressed:
+					keyboardFunc(event);
+					break;
+				default:
+					break;
+				}
+				if (event.type == sf::Event::Closed)
+					sfmlWindow.close();
+			}
+			if (sf::Event::MouseButtonPressed)
+				mouseFunc(event);
+
+			switch (current)
+			{
+			case 0:
+			{
+
+			}
+			break;
+			case 1:
+			{
+				sfmlWindow.clear(sf::Color::Black);
+				gameLoop();
+			}
+			break;
+			case 2:
+			{
+
+			}
+			break;
+			case 3:
+			{
+				sfmlWindow.draw(creditsSprite);
+
+			}
+			break;
+			}
+
+			sfmlWindow.display();
+		}
+	}
 
 	system("pause");
 	return 0;
