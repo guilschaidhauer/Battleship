@@ -19,7 +19,7 @@ public:
 	void receivePositionFromServerAndAddToPlayerBattleship();
 
 	void setPlayer(Player* newPlayer) { player = newPlayer; };
-
+	Player* getPlayer() { return player; }
 	void addPositionToPlayerBattleships(int index, Position newPosition);
 
 	//void callSendBattleshipsToServer(int clientIndex, vector<Battleship> battleships);
