@@ -8,6 +8,7 @@ using namespace std;
 
 Server server;
 Client client1, client2;
+Player player;
 
 GameManager *gameManager;
 
@@ -250,7 +251,7 @@ void drawMatrixFromBattleships(vector<Battleship> *battleships)
 //Não usar essa função. Usar interface para criar as battleships a setar elas.
 void initPlayers()
 {
-	Battleship battleship1, battleship2;
+	Battleship battleship1, battleship2, battleship3, battleship4;
 	Position position;
 
 	position.x = 5;
@@ -258,34 +259,36 @@ void initPlayers()
 	position.alive = true;
 	battleship1.addPosition(position);
 
-	position.x = 5;
-	position.y = 1;
-	position.alive = true;
-	battleship1.addPosition(position);
-
-	position.x = 4;
-	position.y = 1;
-	position.alive = true;
-	battleship1.addPosition(position);
-
 	battleships1.push_back(battleship1);
 
-	///=============================
+	//=============================
 
 	position.x = 6;
 	position.y = 5;
 	position.alive = true;
 	battleship2.addPosition(position);
 
-	position.x = 6;
-	position.y = 4;
-	position.alive = true;
-	battleship2.addPosition(position);
-
 	battleships2.push_back(battleship2);
 
+	//==============================================
+	//==============================================
 
-	server.initPlayersBattleships(battleships1, battleships2);
+	position.x = 4;
+	position.y = 1;
+	position.alive = true;
+	battleship3.addPosition(position);
+	battleships1.push_back(battleship3);
+
+	//=============================
+
+	position.x = 3;
+	position.y = 0;
+	position.alive = true;
+	battleship4.addPosition(position);
+	battleships2.push_back(battleship4);
+
+	//server.initPlayersBattleships(battleships1, battleships2);
+
 
 	//drawMatrixFromBattleships(battleships1);
 }
@@ -303,7 +306,7 @@ void doConnectionConfiguration() {
 			server.addPositionToPlayerBattleships(2);
 			server.addPositionToPlayerBattleships(1);
 			server.addPositionToPlayerBattleships(2);
-			server.addPositionToPlayerBattleships(1);
+			//server.addPositionToPlayerBattleships(1);
 
 			cout << endl << "Client 1:" << endl;
 			drawMatrixFromBattleships(gameManager->getPlayer1()->getBattleships());
@@ -314,18 +317,23 @@ void doConnectionConfiguration() {
 		case 1: { //client 1
 			client1.initClient(2000);
 			client1.receiveFromServer();
-			client1.setPlayer(gameManager->getPlayer1());
+			player.initBattleships(battleships1);
+			client1.setPlayer(&player);
+			//client1.setPlayer(gameManager->getPlayer1());
 			client1.callSendBattleshipPositionToServer(battleships1.at(0).getPositions().at(0), -1);
-			client1.callSendBattleshipPositionToServer(battleships1.at(0).getPositions().at(1), 0);
-			client1.callSendBattleshipPositionToServer(battleships1.at(0).getPositions().at(2), 0);
+			client1.callSendBattleshipPositionToServer(battleships1.at(1).getPositions().at(0), -1);
+			//client1.callSendBattleshipPositionToServer(battleships1.at(0).getPositions().at(2), 0);
 		}
 		break;
 		case 2: { // client 2
 			client2.initClient(2001);
 			client2.receiveFromServer();
-			client2.setPlayer(gameManager->getPlayer2());
+			player.initBattleships(battleships2);
+			client1.setPlayer(&player);
+			//client2.setPlayer(gameManager->getPlayer2());
 			client2.callSendBattleshipPositionToServer(battleships2.at(0).getPositions().at(0), -1);
-			client2.callSendBattleshipPositionToServer(battleships2.at(0).getPositions().at(1), 0);
+			client2.callSendBattleshipPositionToServer(battleships2.at(1).getPositions().at(0), -1);
+			//client2.callSendBattleshipPositionToServer(battleships2.at(0).getPositions().at(1), 0);
 		}
 		break;
 	}

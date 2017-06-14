@@ -18,7 +18,7 @@ void Player::initBattleships(vector<Battleship> newBattleships)
 
 void Player::addPositionToBattleships(int index, Position position)
 {
-	if (index >= 0)
+	/*if (index >= 0)
 	{
 		battleships.at(battleships.size()-1).addPosition(position);
 	}
@@ -27,6 +27,10 @@ void Player::addPositionToBattleships(int index, Position position)
 		Battleship newBattleship;
 		newBattleship.addPosition(position);
 		battleships.push_back(newBattleship);
-	}
+	}*/
+
+	Battleship newBattleship;
+	newBattleship.addPosition(position);
+	battleships.push_back(newBattleship);
 }
 

@@ -25,6 +25,7 @@ public:
 
 	vector<Position> getPositions() { return positions; };
 	void addPosition(Position position) { positions.push_back(position); };
+	void removePostion() { positions.pop_back(); };
 
 private:
 	bool alive;

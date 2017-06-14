@@ -38,7 +38,7 @@ void Client::receivePositionFromServerAndAddToPlayerBattleship()
 
 void Client::addPositionToPlayerBattleships(int index, Position newPosition)
 {
-	if (index >= 0)
+	/*if (index >= 0)
 	{
 		player->getBattleships()->at(index).addPosition(newPosition);
 	}
@@ -47,7 +47,10 @@ void Client::addPositionToPlayerBattleships(int index, Position newPosition)
 		Battleship newBattleship;
 		newBattleship.addPosition(newPosition);
 		player->getBattleships()->push_back(newBattleship);
-	}
+	}*/
+	Battleship newBattleship;
+	newBattleship.addPosition(newPosition);
+	player->getBattleships()->push_back(newBattleship);
 }
 
 void Client::callSendBattleshipPositionToServer(Position position, int posIndex)
