@@ -31,6 +31,8 @@ public:
 	//=================================================
 	void sendBattleshipsToServer();
 
+	void sendMissileCoordinatesToServer(Position position);
+
 private:
 	sf::TcpSocket socket;
 	sf::IpAddress ip;

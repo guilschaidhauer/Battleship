@@ -13,6 +13,7 @@ Server::~Server()
 
 void Server::initServer()
 {
+	gameManager.setPlayer1Turn(true);
 	ip = sf::IpAddress::getLocalAddress();
 
 	listener1.listen(2000);
@@ -116,5 +117,24 @@ void Server::waitForBattleships()
 	{
 		addPositionToPlayerBattleships(1);
 		addPositionToPlayerBattleships(2);
+	}
+}
+
+void Server::waitForMissile()
+{
+	sf::Packet packet;
+	sf::TcpSocket *playerSocket;
+
+	if (gameManager.getPlayer1Turn())
+		playerSocket = &socket1;
+	else
+		playerSocket = &socket2;
+
+	playerSocket->receive(packet);
+
+	Position position;
+	if (packet >> position.alive >> position.x >> position.y)
+	{
+		gameManager.handleMissileReceived(position);
 	}
 }

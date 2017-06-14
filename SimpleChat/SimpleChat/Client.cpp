@@ -68,3 +68,11 @@ void Client::sendBattleshipsToServer()
 		callSendBattleshipPositionToServer(player->getBattleships()->at(i).getPositions().at(0), -1);
 	}
 }
+
+void Client::sendMissileCoordinatesToServer(Position position)
+{
+	sf::Packet packet;
+	packet << position.alive << position.x << position.y;
+
+	socket.send(packet);
+}

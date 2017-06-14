@@ -15,7 +15,6 @@ GameManager *gameManager;
 vector<Battleship> battleships1;
 vector<Battleship> battleships2;
 
-
 //SFML stuff
 
 int height = 900, width = 800, xSize = 32, ySize = 32;
@@ -28,10 +27,11 @@ float timerTransition, transitionDelay = 0.3f;
 sf::Clock myClock;
 
 sf::Font MyFont;
-int currentState = 0, connectionType = -1,shipsLeft = 10;
+int currentState = 0, connectionType = -1, shipsLeft = 10;
 char matrix[10][10];
 
-void loadTextures() {
+void loadTextures()
+{
 	spaceshipTexture.loadFromFile("images\\spaceship.png");
 	spaceTexture.loadFromFile("images\\space.png");
 	explosionTexture.loadFromFile("images\\explosion.png");
@@ -39,7 +39,8 @@ void loadTextures() {
 	bgTexture.loadFromFile("images\\bg.png");
 }
 
-void setSprites() {
+void setSprites()
+{
 	bgSprite.setTexture(bgTexture);
 	spaceSprite.setTexture(spaceTexture);
 	spaceshipSprite.setTexture(spaceshipTexture);
@@ -52,8 +53,9 @@ void setSprites() {
 
 int offset = 5, initialX = 150, initialY = 100;
 
-void drawMatrix(vector<Battleship> *battleships) {
-	
+void drawMatrix(vector<Battleship> *battleships)
+{
+
 	//char matrix[10][10];
 	for (int i = 0; i < 10; i++)
 	{
@@ -72,7 +74,6 @@ void drawMatrix(vector<Battleship> *battleships) {
 		}
 	}
 
-
 	int x = 0, y = 0;
 	sf::Sprite currentSprite;
 	for (int i = 0; i < 10; i++)
@@ -84,17 +85,20 @@ void drawMatrix(vector<Battleship> *battleships) {
 			y = initialY + (i * 35) + offset;
 			spaceSprite.setPosition(x, y);
 			sfmlWindow.draw(spaceSprite);
-			if (matrix[j][i] != '#') {
+			if (matrix[j][i] != '#')
+			{
 				switch (matrix[j][i])
 				{
-				case 'X': {
+				case 'X':
+				{
 					currentSprite = spaceshipSprite;
 				}
-						break;
-				case 2: {
+				break;
+				case 2:
+				{
 					currentSprite = explosionSprite;
 				}
-						break;
+				break;
 				}
 				x += 5;
 				currentSprite.setPosition(x, y);
@@ -104,7 +108,8 @@ void drawMatrix(vector<Battleship> *battleships) {
 	}
 }
 
-void InitializeLocalMatrix() {
+void InitializeLocalMatrix()
+{
 	for (int i = 0; i < 10; i++)
 	{
 		for (int j = 0; j < 10; j++)
@@ -114,7 +119,8 @@ void InitializeLocalMatrix() {
 	}
 }
 
-void DrawLocalMatrix() {
+void DrawLocalMatrix()
+{
 	int x = 0, y = 0;
 	sf::Sprite currentSprite;
 	for (int i = 0; i < 10; i++)
@@ -126,17 +132,20 @@ void DrawLocalMatrix() {
 			y = initialY + (i * 35) + offset;
 			spaceSprite.setPosition(x, y);
 			sfmlWindow.draw(spaceSprite);
-			if (matrix[j][i] != '#') {
+			if (matrix[j][i] != '#')
+			{
 				switch (matrix[j][i])
 				{
-				case 'X': {
+				case 'X':
+				{
 					currentSprite = spaceshipSprite;
 				}
-						  break;
-				case 2: {
+				break;
+				case 2:
+				{
 					currentSprite = explosionSprite;
 				}
-						break;
+				break;
 				}
 				x += 5;
 				currentSprite.setPosition(x, y);
@@ -146,18 +155,20 @@ void DrawLocalMatrix() {
 	}
 }
 
-void keyboardFunc(sf::Event event) {
+void keyboardFunc(sf::Event event)
+{
 	switch (event.key.code)
 	{
 	case sf::Keyboard::Escape:
 		sfmlWindow.close();
 		break;
 	}
-
 }
 
-void PlaceSpaceShip(int x, int y) {
-	if (x > initialX && y > initialY) {
+void PlaceSpaceShip(int x, int y)
+{
+	if (x > initialX && y > initialY)
+	{
 		int posX = ((x - initialX) / (40 + offset));
 		posX = posX < 0 ? 0 : posX;
 		posX = posX > 9 ? 9 : posX;
@@ -168,227 +179,18 @@ void PlaceSpaceShip(int x, int y) {
 
 		std::cout << posX << std::endl;
 		std::cout << posY << std::endl;
-		if (matrix[posX][posY] == '#' && shipsLeft >= 1) {
+		if (matrix[posX][posY] == '#' && shipsLeft >= 1)
+		{
 			matrix[posX][posY] = 'X';
 			shipsLeft -= 1;
 		}
-		else if (matrix[posX][posY] == 'X') {
+		else if (matrix[posX][posY] == 'X')
+		{
 			matrix[posX][posY] = '#';
 			shipsLeft += 1;
 		}
 	}
 }
-
-void GenerateBattleships() {
-	for (int i = 0; i < 10; i++)
-	{
-		for (int j = 0; j < 10; j++)
-		{
-			if (matrix[j][i] == 'X') {
-				Battleship newBS;
-				Position pos;
-				pos.x = j;
-				pos.y = i;
-				pos.alive = true;
-				newBS.addPosition(pos);
-				if (connectionType == 1)
-					battleships1.push_back(newBS);
-				else if (connectionType == 2)
-					battleships2.push_back(newBS);
-			}
-		}
-	}
-
-	if (connectionType == 1) {
-		player.initBattleships(battleships1);
-		client1.sendBattleshipsToServer();
-	}
-	else if (connectionType == 2) {
-		player.initBattleships(battleships2);
-		client2.sendBattleshipsToServer();
-	}
-	else {
-		server.waitForBattleships();
-	}
-}
-
-
-void mouseFunc(sf::Event event) {
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-	{
-		pressed = true;
-		int mouseX = sf::Mouse::getPosition(sfmlWindow).x;
-		int mouseY = sf::Mouse::getPosition(sfmlWindow).y;
-
-		if (currentState == 0) {
-			if (serverSprite.getGlobalBounds().contains(mouseX, mouseY)) {
-				connectionType = 0;
-				InitializeLocalMatrix();
-				currentState = 1;
-			}
-			else if (client1Sprite.getGlobalBounds().contains(mouseX, mouseY)) {
-				connectionType = 1;
-				InitializeLocalMatrix();
-				currentState = 1;
-			}
-			else if (client2Sprite.getGlobalBounds().contains(mouseX, mouseY)) {
-				connectionType = 2;
-				InitializeLocalMatrix();
-				currentState = 1;
-			}
-
-		}
-		else if (currentState == 1) {
-			if (buttonSprite.getGlobalBounds().contains(mouseX, mouseY)) {
-				GenerateBattleships();
-				currentState = 2;
-			}
-			PlaceSpaceShip(mouseX, mouseY);
-			
-		}
-
-	}
-}
-
-void PlaceShipsScreen() {
-	sfmlWindow.draw(bgSprite);
-	sf::Text Title("Battleship", MyFont, 50);
-	sf::Text Info("Ships: ", MyFont, 40);
-	sf::Text Ready("Ready!", MyFont, 40);
-	std::stringstream sLeft;
-	sLeft << shipsLeft;
-	sLeft << "/ 10";
-	sf::Text Left(sLeft.str(), MyFont, 40);
-	int x, y;
-	y = 10;
-	x = width / 2 - Title.getGlobalBounds().width / 2;
-
-	y = (y + ySize);
-
-	Title.setPosition(x, y);
-	Title.setFillColor(sf::Color(255, 0, 0));
-	y = height - (height / 3);
-	x = width / 4;
-
-	int ySize = 80, xSize = 200, offset = 10, xText;
-
-	xText = x + (xSize / 4);
-	Info.setPosition(xText, y + offset);
-
-	xText += Info.getGlobalBounds().width + 10;
-	Left.setPosition(xText, y + offset);
-
-
-	buttonSprite.setPosition((width / 2) - 100, (height - (height / 4)));
-	buttonSprite.setColor(sf::Color::Green);
-
-
-	Ready.setPosition((width / 2) - 50, (height - (height / 4) + 10));
-	if (shipsLeft == 0) {
-		sfmlWindow.draw(buttonSprite);
-		sfmlWindow.draw(Ready);
-	}
-
-	sfmlWindow.draw(Title);
-	sfmlWindow.draw(Info);
-
-	sfmlWindow.draw(Left);
-	DrawLocalMatrix();
-
-}
-
-
-
-void gameLoop(int client) {
-
-	sfmlWindow.draw(bgSprite);
-
-	sf::Text P1("Player 1", MyFont, 30);
-
-	sf::Text P2("Player 2", MyFont, 30);
-
-	Position p1;
-	p1.x = 10;
-	p1.y = 0;
-	Position p2;
-	p2.x = 10;
-	p2.y = 420;
-
-
-	if (connectionType == 1) {
-		P1.setPosition(p2.x,p2.y);
-		P2.setPosition(p1.x, p1.y);
-	}
-	else if (connectionType == 2) {
-		P1.setPosition(p1.x, p1.y);
-		P2.setPosition(p2.x, p2.y);
-	}
-	sfmlWindow.draw(P1);
-	sfmlWindow.draw(P2);
-
-
-
-	switch (connectionType) {
-	case 0: {
-		initialY = 30;
-		drawMatrix(gameManager->getPlayer1()->getBattleships());
-		initialY = 450;
-		drawMatrix(gameManager->getPlayer2()->getBattleships());
-	}
-			break;
-	case 1: {
-		initialY = 450;
-		drawMatrix(client1.getPlayer()->getBattleships());
-	}
-			break;
-	case 2: {
-		initialY = 450;
-		drawMatrix(client2.getPlayer()->getBattleships());
-	}
-			break;
-	}
-	
-
-}
-
-void drawMenu() {
-	sfmlWindow.draw(bgSprite);
-
-	sf::Text Title("Battleship", MyFont, 50);
-	sf::Text Server("Server", MyFont, 40);
-	sf::Text Client1("Client 1", MyFont, 40);
-	sf::Text Client2("Client 2", MyFont, 40);
-	int x, y;
-	y = 10;
-	x = width / 2 - Title.getGlobalBounds().width / 2;
-	Title.setPosition(x, y);
-	Title.setFillColor(sf::Color(255, 0, 0));
-	y = height / 2;
-	x = width / 2 - 100;
-	int ySize = 80, xSize = 200, offset = 10, xText;
-	xText = x + (xSize / 4);
-	
-	Server.setPosition(xText, y + offset);
-	serverSprite.setPosition(x, y);
-	sfmlWindow.draw(serverSprite);
-
-	y = (y + ySize);
-	Client1.setPosition(xText, y + offset);
-	client1Sprite.setPosition(x, y);
-	sfmlWindow.draw(client1Sprite);
-
-	y = (y + ySize);
-	Client2.setPosition(xText, y + offset);
-	client2Sprite.setPosition(x, y);
-	sfmlWindow.draw(client2Sprite);
-
-	sfmlWindow.draw(Title);
-	sfmlWindow.draw(Server);
-	sfmlWindow.draw(Client1);
-	sfmlWindow.draw(Client2);
-}
-
-//END SFML
 
 void drawMatrixFromBattleships(vector<Battleship> *battleships)
 {
@@ -421,7 +223,253 @@ void drawMatrixFromBattleships(vector<Battleship> *battleships)
 	}
 }
 
-//Não usar essa função. Usar interface para criar as battleships a setar elas.
+void GenerateBattleships()
+{
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			if (matrix[j][i] == 'X')
+			{
+				Battleship newBS;
+				Position pos;
+				pos.x = j;
+				pos.y = i;
+				pos.alive = true;
+				newBS.addPosition(pos);
+				if (connectionType == 1)
+					battleships1.push_back(newBS);
+				else if (connectionType == 2)
+					battleships2.push_back(newBS);
+			}
+		}
+	}
+
+	if (connectionType == 1)
+	{
+		player.initBattleships(battleships1);
+		client1.sendBattleshipsToServer();
+		cout << "Ready" << endl;
+	}
+	else if (connectionType == 2)
+	{
+		player.initBattleships(battleships2);
+		client2.sendBattleshipsToServer();
+		cout << "Ready" << endl;
+	}
+	else
+	{
+		server.waitForBattleships();
+	}
+}
+
+void mouseFunc(sf::Event event)
+{
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		pressed = true;
+		int mouseX = sf::Mouse::getPosition(sfmlWindow).x;
+		int mouseY = sf::Mouse::getPosition(sfmlWindow).y;
+
+		if (currentState == 0)
+		{
+			if (serverSprite.getGlobalBounds().contains(mouseX, mouseY))
+			{
+				connectionType = 0;
+				InitializeLocalMatrix();
+				currentState = 1;
+			}
+			else if (client1Sprite.getGlobalBounds().contains(mouseX, mouseY))
+			{
+				connectionType = 1;
+				InitializeLocalMatrix();
+				currentState = 1;
+			}
+			else if (client2Sprite.getGlobalBounds().contains(mouseX, mouseY))
+			{
+				connectionType = 2;
+				InitializeLocalMatrix();
+				currentState = 1;
+			}
+		}
+		else if (currentState == 1)
+		{
+			if (buttonSprite.getGlobalBounds().contains(mouseX, mouseY))
+			{
+				GenerateBattleships();
+				currentState = 2;
+			}
+			PlaceSpaceShip(mouseX, mouseY);
+		}
+	}
+}
+
+void PlaceShipsScreen()
+{
+	sfmlWindow.draw(bgSprite);
+	sf::Text Title("Battleship", MyFont, 50);
+	sf::Text Info("Ships: ", MyFont, 40);
+	sf::Text Ready("Ready!", MyFont, 40);
+	std::stringstream sLeft;
+	sLeft << shipsLeft;
+	sLeft << "/ 10";
+	sf::Text Left(sLeft.str(), MyFont, 40);
+	int x, y;
+	y = 10;
+	x = width / 2 - Title.getGlobalBounds().width / 2;
+
+	y = (y + ySize);
+
+	Title.setPosition(x, y);
+	Title.setFillColor(sf::Color(255, 0, 0));
+	y = height - (height / 3);
+	x = width / 4;
+
+	int ySize = 80, xSize = 200, offset = 10, xText;
+
+	xText = x + (xSize / 4);
+	Info.setPosition(xText, y + offset);
+
+	xText += Info.getGlobalBounds().width + 10;
+	Left.setPosition(xText, y + offset);
+
+	buttonSprite.setPosition((width / 2) - 100, (height - (height / 4)));
+	buttonSprite.setColor(sf::Color::Green);
+
+	Ready.setPosition((width / 2) - 50, (height - (height / 4) + 10));
+	if (shipsLeft == 0)
+	{
+		sfmlWindow.draw(buttonSprite);
+		sfmlWindow.draw(Ready);
+	}
+
+	sfmlWindow.draw(Title);
+	sfmlWindow.draw(Info);
+
+	sfmlWindow.draw(Left);
+	DrawLocalMatrix();
+}
+
+void gameLoop(int client)
+{
+
+	sfmlWindow.draw(bgSprite);
+
+	sf::Text P1("Player 1", MyFont, 30);
+
+	sf::Text P2("Player 2", MyFont, 30);
+
+	Position p1;
+	p1.x = 10;
+	p1.y = 0;
+	Position p2;
+	p2.x = 10;
+	p2.y = 420;
+
+	if (connectionType == 1)
+	{
+		P1.setPosition(p2.x, p2.y);
+		P2.setPosition(p1.x, p1.y);
+	}
+	else if (connectionType == 2)
+	{
+		P1.setPosition(p1.x, p1.y);
+		P2.setPosition(p2.x, p2.y);
+	}
+	sfmlWindow.draw(P1);
+	sfmlWindow.draw(P2);
+
+	switch (connectionType)
+	{
+	case 0:
+	{
+		initialY = 30;
+		drawMatrix(gameManager->getPlayer1()->getBattleships());
+		initialY = 450;
+		drawMatrix(gameManager->getPlayer2()->getBattleships());
+	}
+	break;
+	case 1:
+	{
+		initialY = 450;
+		drawMatrix(client1.getPlayer()->getBattleships());
+	}
+	break;
+	case 2:
+	{
+		initialY = 450;
+		drawMatrix(client2.getPlayer()->getBattleships());
+	}
+	break;
+	}
+}
+
+void drawMenu()
+{
+	sfmlWindow.draw(bgSprite);
+
+	sf::Text Title("Battleship", MyFont, 50);
+	sf::Text Server("Server", MyFont, 40);
+	sf::Text Client1("Client 1", MyFont, 40);
+	sf::Text Client2("Client 2", MyFont, 40);
+	int x, y;
+	y = 10;
+	x = width / 2 - Title.getGlobalBounds().width / 2;
+	Title.setPosition(x, y);
+	Title.setFillColor(sf::Color(255, 0, 0));
+	y = height / 2;
+	x = width / 2 - 100;
+	int ySize = 80, xSize = 200, offset = 10, xText;
+	xText = x + (xSize / 4);
+
+	Server.setPosition(xText, y + offset);
+	serverSprite.setPosition(x, y);
+	sfmlWindow.draw(serverSprite);
+
+	y = (y + ySize);
+	Client1.setPosition(xText, y + offset);
+	client1Sprite.setPosition(x, y);
+	sfmlWindow.draw(client1Sprite);
+
+	y = (y + ySize);
+	Client2.setPosition(xText, y + offset);
+	client2Sprite.setPosition(x, y);
+	sfmlWindow.draw(client2Sprite);
+
+	sfmlWindow.draw(Title);
+	sfmlWindow.draw(Server);
+	sfmlWindow.draw(Client1);
+	sfmlWindow.draw(Client2);
+}
+
+void selectionLoopClient()
+{
+	Position pos;
+	pos.x = 0;
+	pos.y = 0;
+	if (connectionType == 1)
+	{
+		if (gameManager->getPlayer1Turn())
+		{
+			client1.sendMissileCoordinatesToServer(pos);
+		}
+	}
+	else if (connectionType == 2)
+	{
+		//Wait for missile check response
+	}
+	gameManager->flitTurn();
+}
+
+void selectionLoopServer()
+{
+	server.waitForMissile();
+	gameManager->flitTurn();
+}
+
+//END SFML
+
+//Nï¿½o usar essa funï¿½ï¿½o. Usar interface para criar as battleships a setar elas.
 void initPlayers()
 {
 	Battleship battleship1, battleship2, battleship3, battleship4;
@@ -462,73 +510,82 @@ void initPlayers()
 
 	//server.initPlayersBattleships(battleships1, battleships2);
 
-
 	//drawMatrixFromBattleships(battleships1);
 }
 
-void syncBattleships() {
-	switch (connectionType) {
-		case 0: { // server
+void syncBattleships()
+{
+	switch (connectionType)
+	{
+	case 0:
+	{ // server
 
-			for (int i = 0; i < 2; i++)
-			{
-				server.addPositionToPlayerBattleships(1);
-				server.addPositionToPlayerBattleships(2);
-			}
-
-			//drawMatrixFromBattleships(gameManager->getPlayer1()->getBattleships());
-			//drawMatrixFromBattleships(gameManager->getPlayer2()->getBattleships());
+		for (int i = 0; i < 2; i++)
+		{
+			server.addPositionToPlayerBattleships(1);
+			server.addPositionToPlayerBattleships(2);
 		}
-				break;
-		case 1: { //client 1
-			client1.setPlayer(&player);
 
-			for (int i = 0; i < battleships1.size(); i++)
-			{
-				client1.callSendBattleshipPositionToServer(battleships1.at(i).getPositions().at(0), -1);
-			}
-		}
-				break;
-		case 2: { // client 2
-			client2.setPlayer(&player);
+		//drawMatrixFromBattleships(gameManager->getPlayer1()->getBattleships());
+		//drawMatrixFromBattleships(gameManager->getPlayer2()->getBattleships());
+	}
+	break;
+	case 1:
+	{ //client 1
+		client1.setPlayer(&player);
 
-			for (int i = 0; i < battleships2.size(); i++)
-			{
-				client2.callSendBattleshipPositionToServer(battleships2.at(i).getPositions().at(0), -1);
-			}
+		for (int i = 0; i < battleships1.size(); i++)
+		{
+			client1.callSendBattleshipPositionToServer(battleships1.at(i).getPositions().at(0), -1);
 		}
-			break;
+	}
+	break;
+	case 2:
+	{ // client 2
+		client2.setPlayer(&player);
+
+		for (int i = 0; i < battleships2.size(); i++)
+		{
+			client2.callSendBattleshipPositionToServer(battleships2.at(i).getPositions().at(0), -1);
+		}
+	}
+	break;
 	}
 }
 
-void doConnectionConfiguration() {
-	switch (connectionType) {
-		case 0: { // server
-			gameManager = server.getGameManager();
-			server.initServer();
-			//server.waitForBattleships();
-		}
-		break;
-		case 1: { //client 1
-			client1.setPlayer(&player);
-			client1.initClient(2000);
-			//player.initBattleships(battleships1);
-			//client1.sendBattleshipsToServer();
-		}
-		break;
-		case 2: { // client 2
-			client2.setPlayer(&player);
-			client2.initClient(2001);
-			//player.initBattleships(battleships2);
-			//client2.sendBattleshipsToServer();
-		}
-		break;
+void doConnectionConfiguration()
+{
+	switch (connectionType)
+	{
+	case 0:
+	{ // server
+		gameManager = server.getGameManager();
+		server.initServer();
+		//server.waitForBattleships();
+	}
+	break;
+	case 1:
+	{ //client 1
+		gameManager = new GameManager();
+		client1.setPlayer(&player);
+		client1.initClient(2000);
+		//player.initBattleships(battleships1);
+		//client1.sendBattleshipsToServer();
+	}
+	break;
+	case 2:
+	{ // client 2
+		gameManager = new GameManager();
+		client2.setPlayer(&player);
+		client2.initClient(2001);
+		//player.initBattleships(battleships2);
+		//client2.sendBattleshipsToServer();
+	}
+	break;
 	}
 
 	//syncBattleships();
 }
-
-
 
 int main()
 {
@@ -538,96 +595,97 @@ int main()
 	bool configured = false;
 
 	//SFML stuff
-		
-		if (!MyFont.loadFromFile("fonts\\DimboRegular.ttf"))
+
+	if (!MyFont.loadFromFile("fonts\\DimboRegular.ttf"))
+	{
+		// Error...
+	}
+	/** Prepare the window */
+	sfmlWindow.setFramerateLimit(60);
+
+	/** Prepare textures */
+	loadTextures();
+	setSprites();
+
+	while (sfmlWindow.isOpen())
+	{
+		sf::Event event;
+		while (sfmlWindow.pollEvent(event))
 		{
-			// Error...
+			switch (event.type)
+			{
+			case sf::Event::Closed:
+				sfmlWindow.close();
+				break;
+			case sf::Event::KeyPressed:
+				keyboardFunc(event);
+				break;
+			case sf::Event::MouseButtonPressed:
+				if (!pressed)
+					mouseFunc(event);
+				break;
+			case sf::Event::MouseButtonReleased:
+				if (pressed)
+					pressed = false;
+				break;
+			default:
+				break;
+			}
+			if (event.type == sf::Event::Closed)
+				sfmlWindow.close();
 		}
-		/** Prepare the window */
-		sfmlWindow.setFramerateLimit(60);
+		//if (sf::Event::MouseButtonPressed)
+		//	mouseFunc(event);
 
-
-		/** Prepare textures */
-		loadTextures();
-		setSprites();
-
-		while (sfmlWindow.isOpen())
+		switch (currentState)
 		{
-			sf::Event event;
-			while (sfmlWindow.pollEvent(event))
+		case 0:
+		{
+			drawMenu();
+		}
+		break;
+		case 1:
+		{
+			if (!configured)
 			{
-				switch (event.type)
-				{
-				case sf::Event::Closed:
-					sfmlWindow.close();
-					break;
-				case sf::Event::KeyPressed:
-					keyboardFunc(event);
-					break;
-				case sf::Event::MouseButtonPressed:
-					if (!pressed)
-						mouseFunc(event);
-					break;
-				case sf::Event::MouseButtonReleased:
-					if (pressed)
-						pressed = false;
-					break;
-				default:
-					break;
-				}
-				if (event.type == sf::Event::Closed)
-					sfmlWindow.close();
+				configured = true;
+				cout << "pre conf" << endl;
+				doConnectionConfiguration();
+				cout << "pos conf" << endl;
 			}
-			//if (sf::Event::MouseButtonPressed)
-			//	mouseFunc(event);
+			if (connectionType != 0)
+			{
+				PlaceShipsScreen();
+				selectionLoopClient();
+			}
+			else
+			{
+				//sfmlWindow.clear(sf::Color::Black);
+				server.waitForBattleships();
+				selectionLoopServer();
+			}
+		}
+		break;
+		case 2:
+		{
+			sfmlWindow.clear(sf::Color::Black);
 
-			switch (currentState)
-			{
-			case 0:
-			{
-				drawMenu();
-				
-			}
-			break;
-			case 1:
-			{
-				if (!configured) {
-					configured = true;
-					cout << "pre conf" << endl;
-					doConnectionConfiguration();
-					cout << "pos conf" << endl;
-				}
-				if (connectionType != 0) {
-					PlaceShipsScreen();
-				}
-				else {
-					//sfmlWindow.clear(sf::Color::Black);
-					server.waitForBattleships();
-				}
-			}
-			break;
-			case 2:
-			{
-				sfmlWindow.clear(sf::Color::Black);
-				
-				//if (connectionType != 0) {
-					gameLoop(connectionType);
+			//if (connectionType != 0) {
+			gameLoop(connectionType);
 			//	}
-				//else {
-				//	sfmlWindow.close();
-				//}
-			}
-			break;
-			case 3:
-			{
-
-			}
-			break;
-			}
-
-			sfmlWindow.display();
+			//else {
+			//	sfmlWindow.close();
+			//}
 		}
-	
+		break;
+		case 3:
+		{
+		}
+		break;
+		}
+
+		sfmlWindow.display();
+	}
 
 	//system("pause");
 	return 0;

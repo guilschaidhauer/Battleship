@@ -32,6 +32,8 @@ public:
 	//==============================
 	void waitForBattleships ();
 
+	void waitForMissile();
+
 private:
 	GameManager gameManager;
 
