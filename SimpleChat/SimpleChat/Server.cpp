@@ -112,7 +112,7 @@ void Server::addPositionToPlayerBattleships(int clientIndex)
 
 void Server::waitForBattleships()
 {
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		addPositionToPlayerBattleships(1);
 		addPositionToPlayerBattleships(2);
