@@ -29,6 +29,9 @@ public:
 
 	void addPositionToPlayerBattleships(int clientIndex);
 
+	//==============================
+	void waitForBattleships ();
+
 private:
 	GameManager gameManager;
 

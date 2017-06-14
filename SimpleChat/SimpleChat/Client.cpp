@@ -60,3 +60,11 @@ void Client::callSendBattleshipPositionToServer(Position position, int posIndex)
 
 	socket.send(packet);
 }
+
+void Client::sendBattleshipsToServer()
+{
+	for (int i = 0; i < player->getBattleships()->size(); i++)
+	{
+		callSendBattleshipPositionToServer(player->getBattleships()->at(i).getPositions().at(0), -1);
+	}
+}

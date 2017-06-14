@@ -293,51 +293,69 @@ void initPlayers()
 	//drawMatrixFromBattleships(battleships1);
 }
 
+void syncBattleships() {
+	switch (connectionType) {
+		case 0: { // server
+
+			for (int i = 0; i < 2; i++)
+			{
+				server.addPositionToPlayerBattleships(1);
+				server.addPositionToPlayerBattleships(2);
+			}
+
+			drawMatrixFromBattleships(gameManager->getPlayer1()->getBattleships());
+			drawMatrixFromBattleships(gameManager->getPlayer2()->getBattleships());
+		}
+				break;
+		case 1: { //client 1
+			client1.setPlayer(&player);
+
+			for (int i = 0; i < battleships1.size(); i++)
+			{
+				client1.callSendBattleshipPositionToServer(battleships1.at(i).getPositions().at(0), -1);
+			}
+		}
+				break;
+		case 2: { // client 2
+			client2.setPlayer(&player);
+
+			for (int i = 0; i < battleships2.size(); i++)
+			{
+				client2.callSendBattleshipPositionToServer(battleships2.at(i).getPositions().at(0), -1);
+			}
+		}
+			break;
+	}
+}
 
 void doConnectionConfiguration() {
 	switch (connectionType) {
 		case 0: { // server
 			gameManager = server.getGameManager();
 			server.initServer();
-			server.callSendToClient(1, "Hello Client 1");
-			server.callSendToClient(2, "Hello Client 2");
-
-			server.addPositionToPlayerBattleships(1);
-			server.addPositionToPlayerBattleships(2);
-			server.addPositionToPlayerBattleships(1);
-			server.addPositionToPlayerBattleships(2);
-			//server.addPositionToPlayerBattleships(1);
-
-			cout << endl << "Client 1:" << endl;
-			drawMatrixFromBattleships(gameManager->getPlayer1()->getBattleships());
-			cout << endl << "Client 2:" << endl;
-			drawMatrixFromBattleships(gameManager->getPlayer2()->getBattleships());
+			server.waitForBattleships();
 		}
 		break;
 		case 1: { //client 1
-			client1.initClient(2000);
-			client1.receiveFromServer();
-			player.initBattleships(battleships1);
 			client1.setPlayer(&player);
-			//client1.setPlayer(gameManager->getPlayer1());
-			client1.callSendBattleshipPositionToServer(battleships1.at(0).getPositions().at(0), -1);
-			client1.callSendBattleshipPositionToServer(battleships1.at(1).getPositions().at(0), -1);
-			//client1.callSendBattleshipPositionToServer(battleships1.at(0).getPositions().at(2), 0);
+			client1.initClient(2000);
+			player.initBattleships(battleships1);
+			client1.sendBattleshipsToServer();
 		}
 		break;
 		case 2: { // client 2
+			client2.setPlayer(&player);
 			client2.initClient(2001);
-			client2.receiveFromServer();
 			player.initBattleships(battleships2);
-			client1.setPlayer(&player);
-			//client2.setPlayer(gameManager->getPlayer2());
-			client2.callSendBattleshipPositionToServer(battleships2.at(0).getPositions().at(0), -1);
-			client2.callSendBattleshipPositionToServer(battleships2.at(1).getPositions().at(0), -1);
-			//client2.callSendBattleshipPositionToServer(battleships2.at(0).getPositions().at(1), 0);
+			client2.sendBattleshipsToServer();
 		}
 		break;
 	}
+
+	//syncBattleships();
 }
+
+
 
 int main()
 {

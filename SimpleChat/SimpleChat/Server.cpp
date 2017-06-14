@@ -109,3 +109,12 @@ void Server::addPositionToPlayerBattleships(int clientIndex)
 			gameManager.getPlayer2()->addPositionToBattleships(index, position);
 	}
 }
+
+void Server::waitForBattleships()
+{
+	for (int i = 0; i < 2; i++)
+	{
+		addPositionToPlayerBattleships(1);
+		addPositionToPlayerBattleships(2);
+	}
+}

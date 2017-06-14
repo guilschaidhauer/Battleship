@@ -28,6 +28,9 @@ public:
 	void callSendBattleshipPositionToServer(Position position, int posIndex);
 	//void sendBattleshipPositionToClient(sf::TcpSocket *socket, Position position, int posIndex);
 
+	//=================================================
+	void sendBattleshipsToServer();
+
 private:
 	sf::TcpSocket socket;
 	sf::IpAddress ip;
