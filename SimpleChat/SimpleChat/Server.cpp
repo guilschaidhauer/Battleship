@@ -120,6 +120,8 @@ void Server::waitForBattleships()
 	}
 }
 
+
+
 void Server::waitForMissile()
 {
 	sf::Packet packet;
@@ -135,6 +137,26 @@ void Server::waitForMissile()
 	Position position;
 	if (packet >> position.alive >> position.x >> position.y)
 	{
-		gameManager.handleMissileReceived(position);
+		if (gameManager.checkMissileHit(position))
+		{
+			position.alive = true;
+			std::cout << "missile hit a spaceship" << endl;
+		}
+		else
+		{
+			position.alive = false;
+			std::cout << "missile did not hit a spaceship" << endl;
+		}
+
+		//sendMissileResponse(position);
 	}
+}
+
+void Server::sendMissileResponse(Position position)
+{
+	sf::Packet packet;
+	packet << position.alive << position.x << position.y;
+
+	socket1.send(packet);
+	socket2.send(packet);
 }

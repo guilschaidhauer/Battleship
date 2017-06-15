@@ -444,6 +444,40 @@ void drawMenu()
 	sfmlWindow.draw(Client2);
 }
 
+
+/*	TODO Chamar isso quando mandar bomba para o servidor
+
+Se for o cliente 1 que estiver mandando (gameManager.getPlayer1turn())
+o client1 manda um Position pro servidor. Servidor retorna a position.
+Se o alive for true, acertou, se for falso errou. Fazer o que precisar de acordo com isso
+
+
+client1.sendMissileCoordinatesToServer(pos);
+Position responsePosition = client1.waitForMissileResponse();
+
+if (responsePosition.alive)
+{
+	cout << "Fucking hit on: " << pos.x << " x " << pos.y << endl;
+}
+else
+{
+	cout << "did not fucking hit on: " << pos.x << " x " << pos.y << endl;
+}
+
+enquanto o cliente 2 espera, chamar isso
+
+Position responsePosition = client2.waitForMissileResponse();
+
+if (responsePosition.alive)
+{
+cout << "Fucking hit on: " << pos.x << " x " << pos.y << endl;
+}
+else
+{
+cout << "did not fucking hit on: " << pos.x << " x " << pos.y << endl;
+}
+
+*/
 void selectionLoopClient()
 {
 	Position pos;
@@ -453,16 +487,42 @@ void selectionLoopClient()
 	{
 		if (gameManager->getPlayer1Turn())
 		{
+			//TODO tentei colocar isso aqui, mas ele chama isso assim que o jogador clica no Client 1. Tem que ser em outro lugar
+			/*
 			client1.sendMissileCoordinatesToServer(pos);
+			client1.waitForMissileResponse();
+			//Wait for missile check response
+			Position responsePosition = client1.waitForMissileResponse();
+			
+			if (responsePosition.alive)
+			{
+				cout << "Fucking hit on: " << pos.x << " x " << pos.y << endl;
+			}
+			else
+			{
+				cout << "did not fucking hit on: " << pos.x << " x " << pos.y << endl;
+			}*/
 		}
 	}
 	else if (connectionType == 2)
 	{
+		/*client2.waitForMissileResponse();
 		//Wait for missile check response
+		Position responsePosition = client2.waitForMissileResponse();
+
+		if (responsePosition.alive)
+		{
+			cout << "Fucking hit on: " << pos.x << " x " << pos.y << endl;
+		}
+		else
+		{
+			cout << "did not fucking hit on: " << pos.x << " x " << pos.y << endl;
+		}*/
 	}
-	gameManager->flitTurn();
+	//gameManager->flitTurn();
 }
 
+//Chamar isso enquanto um dos clientes estiver selecionando a posição pra mandar a bomba
 void selectionLoopServer()
 {
 	server.waitForMissile();

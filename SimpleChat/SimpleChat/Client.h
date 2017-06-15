@@ -33,6 +33,8 @@ public:
 
 	void sendMissileCoordinatesToServer(Position position);
 
+	Position waitForMissileResponse();
+
 private:
 	sf::TcpSocket socket;
 	sf::IpAddress ip;

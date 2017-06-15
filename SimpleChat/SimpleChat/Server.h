@@ -34,6 +34,8 @@ public:
 
 	void waitForMissile();
 
+	void sendMissileResponse(Position position);
+
 private:
 	GameManager gameManager;
 

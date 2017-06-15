@@ -76,3 +76,17 @@ void Client::sendMissileCoordinatesToServer(Position position)
 
 	socket.send(packet);
 }
+
+Position Client::waitForMissileResponse()
+{
+	sf::Packet packet;
+	socket.receive(packet);
+
+	Position position;
+	if (packet >> position.alive >> position.x >> position.y)
+	{
+
+	}
+
+	return position;
+}
