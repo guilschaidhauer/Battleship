@@ -1,38 +1,36 @@
 ﻿  SimpleChat.cpp
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(67): warning C4018: '<': signed/unsigned mismatch
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(71): warning C4018: '<': signed/unsigned mismatch
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(86): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(104): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(133): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(151): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(206): warning C4018: '<': signed/unsigned mismatch
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(210): warning C4018: '<': signed/unsigned mismatch
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(276): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(282): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(288): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(297): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(319): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(323): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(331): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(333): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(334): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(336): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(339): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(371): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(372): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(376): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(377): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(417): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(418): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(425): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(426): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(430): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(431): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(435): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(436): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(539): warning C4018: '<': signed/unsigned mismatch
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\simplechat.cpp(549): warning C4018: '<': signed/unsigned mismatch
-  GameManager.cpp
-c:\users\i853080\documents\github\2017-1\battleship\simplechat\simplechat\gamemanager.cpp(30): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  SimpleChat.vcxproj -> C:\Users\I853080\Documents\GitHub\2017-1\Battleship\SimpleChat\Debug\SimpleChat.exe
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(70): warning C4018: '<': signed/unsigned mismatch
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(74): warning C4018: '<': signed/unsigned mismatch
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(89): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(107): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(124): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(141): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(172): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(190): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(353): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(359): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(365): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(374): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(403): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(407): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(414): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(415): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(418): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(421): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(453): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(457): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(458): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(462): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(463): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(509): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(510): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(517): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(518): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(522): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(523): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(527): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(528): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(629): warning C4018: '<': signed/unsigned mismatch
+c:\users\gabriel.fazenda\documents\unisinos\2017-1\redes\gb\battleship\simplechat\simplechat\simplechat.cpp(639): warning C4018: '<': signed/unsigned mismatch
+  SimpleChat.vcxproj -> C:\Users\Gabriel.Fazenda\Documents\UNISINOS\2017-1\Redes\GB\Battleship\SimpleChat\Debug\SimpleChat.exe
+  SimpleChat.vcxproj -> C:\Users\Gabriel.Fazenda\Documents\UNISINOS\2017-1\Redes\GB\Battleship\SimpleChat\Debug\SimpleChat.pdb (Full PDB)
