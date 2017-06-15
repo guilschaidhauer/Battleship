@@ -17,6 +17,8 @@ vector<Battleship> battleships2;
 
 //SFML stuff
 
+//Add useless comment
+
 int height = 900, width = 800, xSize = 32, ySize = 32;
 sf::RenderWindow sfmlWindow(sf::VideoMode(width, height, 32), "XXXX - Redes 2017/1");
 
