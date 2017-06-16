@@ -85,7 +85,7 @@ Position Client::waitForMissileResponse()
 	Position position;
 	if (packet >> position.alive >> position.x >> position.y)
 	{
-
+		cout << "got it" << endl;
 	}
 
 	return position;

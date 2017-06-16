@@ -148,7 +148,7 @@ void Server::waitForMissile()
 			std::cout << "missile did not hit a spaceship" << endl;
 		}
 
-		//sendMissileResponse(position);
+		sendMissileResponse(position);
 	}
 }
 
@@ -156,7 +156,8 @@ void Server::sendMissileResponse(Position position)
 {
 	sf::Packet packet;
 	packet << position.alive << position.x << position.y;
-
-	socket1.send(packet);
-	socket2.send(packet);
+	if (gameManager.getPlayer1Turn())
+		socket1.send(packet);
+	else
+		socket2.send(packet);
 }
