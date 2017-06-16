@@ -596,8 +596,6 @@ void selectionLoopClient()
 	{
 		if (!gameManager->getPlayer1Turn() && shotFired)
 		{
-			
-
 			client2.sendMissileCoordinatesToServer(crosshairPosition);
 			//Wait for missile check response
 			Position responsePosition = client2.waitForMissileResponse();
@@ -610,6 +608,7 @@ void selectionLoopClient()
 			}
 			else
 			{
+				enemyMatrix[crosshairPosition.x][crosshairPosition.y] = 'W';
 				cout << "Missed on: " << responsePosition.x << " x " << responsePosition.y << endl;
 			}
 			shotFired = false;
