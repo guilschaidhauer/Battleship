@@ -16,15 +16,12 @@ vector<Battleship> battleships1;
 vector<Battleship> battleships2;
 
 //SFML stuff
-
-//Add useless comment
-
 int height = 900, width = 800, xSize = 32, ySize = 32, myPoints = 0, enemyPoints = 0;
 sf::RenderWindow sfmlWindow(sf::VideoMode(width, height, 32), "XXXX - Redes 2017/1");
 
 sf::Texture spaceshipTexture, explosionTexture, spaceTexture, bgTexture, gameOverTexture, creditsTexture, buttonTexture, crosshairTexture, wrongTexture;
 sf::Sprite spaceshipSprite, explosionSprite, spaceSprite, menuSprite, bgSprite, gOverSprite, creditsSprite, buttonSprite, serverSprite, client1Sprite, client2Sprite, crosshairSprite, fireSprite, wrongSprite;
-bool pressed = false, crosshairPlaced = false, shotFired = false;
+bool pressed = false, crosshairPlaced = false, shotFired = false, wonGame = false;
 Position crosshairPosition;
 float timerTransition, transitionDelay = 0.3f;
 sf::Clock myClock;
@@ -32,6 +29,7 @@ sf::Clock myClock;
 sf::Font MyFont;
 int currentState = 0, connectionType = -1, shipsLeft = 10;
 char matrix[10][10], enemyMatrix[10][10];
+
 
 void loadTextures()
 {
@@ -64,7 +62,6 @@ int offset = 5, initialX = 150, initialY = 100;
 void drawMatrix(vector<Battleship> *battleships)
 {
 
-	//char matrix[10][10];
 	for (int i = 0; i < 10; i++)
 	{
 		for (int j = 0; j < 10; j++)
@@ -213,6 +210,10 @@ void keyboardFunc(sf::Event event)
 	case sf::Keyboard::Escape:
 		sfmlWindow.close();
 		break;
+
+	case sf::Keyboard::Q:
+		currentState = 3;
+		break;
 	}
 }
 
@@ -276,36 +277,6 @@ void PlaceCrosshair(int x, int y)
 	}
 }
 
-//void drawMatrixFromBattleships(vector<Battleship> *battleships)
-//{
-//
-//	for (int i = 0; i < 10; i++)
-//	{
-//		for (int j = 0; j < 10; j++)
-//		{
-//			matrix[j][i] = '#';
-//		}
-//	}
-//
-//	for (int i = 0; i < battleships->size(); i++)
-//	{
-//		vector<Position> positions = battleships->at(i).getPositions();
-//
-//		for (int j = 0; j < positions.size(); j++)
-//		{
-//			matrix[positions.at(j).x][positions.at(j).y] = 'X';
-//		}
-//	}
-//
-//	for (int i = 0; i < 10; i++)
-//	{
-//		for (int j = 0; j < 10; j++)
-//		{
-//			cout << matrix[j][i] << " ";
-//		}
-//		cout << endl;
-//	}
-//}
 
 void GenerateBattleships()
 {
@@ -346,6 +317,9 @@ void GenerateBattleships()
 		server.waitForBattleships();
 	}
 }
+
+
+
 
 void mouseFunc(sf::Event event)
 {
@@ -405,7 +379,6 @@ void PlaceShipsScreen()
 {
 	sfmlWindow.draw(bgSprite);
 	sf::Text Title("Battleship", MyFont, 50);
-	//sf::Text Info("Ships: ", MyFont, 40);
 	sf::Text Ready("Ready!", MyFont, 40);
 	std::stringstream sLeft;
 	sLeft << "Ships: ";
@@ -450,15 +423,15 @@ bool canShoot() {
 	return ((connectionType == 1 && gameManager->getPlayer1Turn()) || (connectionType == 2 && !gameManager->getPlayer1Turn()));
 }
 
-void gameLoop(int client)
+void gameLoop()
 {
 
 	sfmlWindow.draw(bgSprite);
 
 	sf::Text Fire("Fire!", MyFont, 50);
-	Fire.setPosition(665, 105);
+	Fire.setPosition(665, 35);
 
-	fireSprite.setPosition(600, 100);
+	fireSprite.setPosition(600, 30);
 	fireSprite.setColor(sf::Color::Red);
 
 
@@ -514,7 +487,6 @@ void gameLoop(int client)
 		initialY = 30;
 		drawEnemyMatrix();
 		initialY = 450;
-		//drawMatrix(client1.getPlayer()->getBattleships());
 		DrawLocalMatrix();
 	}
 	break;
@@ -523,7 +495,6 @@ void gameLoop(int client)
 		initialY = 30;
 		drawEnemyMatrix();
 		initialY = 450;
-		//drawMatrix(client2.getPlayer()->getBattleships());
 		DrawLocalMatrix();
 	}
 	break;
@@ -568,40 +539,6 @@ void drawMenu()
 	sfmlWindow.draw(Client2);
 }
 
-
-/*	TODO Chamar isso quando mandar bomba para o servidor
-
-Se for o cliente 1 que estiver mandando (gameManager.getPlayer1turn())
-o client1 manda um Position pro servidor. Servidor retorna a position.
-Se o alive for true, acertou, se for falso errou. Fazer o que precisar de acordo com isso
-
-
-client1.sendMissileCoordinatesToServer(pos);
-Position responsePosition = client1.waitForMissileResponse();
-
-if (responsePosition.alive)
-{
-	cout << "Fucking hit on: " << pos.x << " x " << pos.y << endl;
-}
-else
-{
-	cout << "did not fucking hit on: " << pos.x << " x " << pos.y << endl;
-}
-
-enquanto o cliente 2 espera, chamar isso
-
-Position responsePosition = client2.waitForMissileResponse();
-
-if (responsePosition.alive)
-{
-cout << "Fucking hit on: " << pos.x << " x " << pos.y << endl;
-}
-else
-{
-cout << "did not fucking hit on: " << pos.x << " x " << pos.y << endl;
-}
-
-*/
 void selectionLoopClient()
 {
 	Position pos;
@@ -610,11 +547,9 @@ void selectionLoopClient()
 	if (connectionType == 1)
 	{
 		if (gameManager->getPlayer1Turn() && shotFired)
-		{
-			//TODO tentei colocar isso aqui, mas ele chama isso assim que o jogador clica no Client 1. Tem que ser em outro lugar
-			
+		{		
 			client1.sendMissileCoordinatesToServer(crosshairPosition);
-			//client1.waitForMissileResponse();
+
 			//Wait for missile check response
 			Position responsePosition = client1.waitForMissileResponse();
 			cout << "got packet" << endl;
@@ -631,6 +566,10 @@ void selectionLoopClient()
 			}
 			shotFired = false;
 			gameManager->flipTurn();
+			if (myPoints >= 10) {
+				wonGame = true;
+				currentState = 3;
+			}
 			return;
 		}else if (!gameManager->getPlayer1Turn()) {
 			Position responsePosition = client1.waitForMissileResponse();
@@ -645,14 +584,19 @@ void selectionLoopClient()
 			{
 				cout << "did not fucking hit on: " << responsePosition.x << " x " << responsePosition.y << endl;
 			}
+			if (enemyPoints >= 10) {
+				wonGame = false;
+				currentState = 3;
+			}
 			gameManager->flipTurn();
+			return;
 		}
 	}
 	else if (connectionType == 2)
 	{
 		if (!gameManager->getPlayer1Turn() && shotFired)
 		{
-			//TODO tentei colocar isso aqui, mas ele chama isso assim que o jogador clica no Client 1. Tem que ser em outro lugar
+			
 
 			client2.sendMissileCoordinatesToServer(crosshairPosition);
 			//Wait for missile check response
@@ -660,17 +604,20 @@ void selectionLoopClient()
 			cout << "got packet" << endl;
 			if (responsePosition.alive)
 			{
-				enemyMatrix[crosshairPosition.x][crosshairPosition.y] = 'X';
-				cout << "Fucking hit on: " << responsePosition.x << " x " << responsePosition.y << endl;
-				myPoints++;
+				matrix[responsePosition.x][responsePosition.y] = 'X';
+				cout << "Hit on: " << responsePosition.x << " x " << responsePosition.y << endl;
+				enemyPoints++;
 			}
 			else
 			{
-				enemyMatrix[crosshairPosition.x][crosshairPosition.y] = 'W';
-				cout << "did not fucking hit on: " << responsePosition.x << " x " << responsePosition.y << endl;
+				cout << "Missed on: " << responsePosition.x << " x " << responsePosition.y << endl;
 			}
 			shotFired = false;
 			gameManager->flipTurn();
+			if (myPoints >= 10) {
+				wonGame = true;
+				currentState = 3;
+			}
 			return;
 		}
 		else if (gameManager->getPlayer1Turn()) {
@@ -679,17 +626,32 @@ void selectionLoopClient()
 			if (responsePosition.alive)
 			{
 				matrix[responsePosition.x][responsePosition.y] = 'X';
-				cout << "Fucking hit on: " << responsePosition.x << " x " << responsePosition.y << endl;
+				cout << "Hit on: " << responsePosition.x << " x " << responsePosition.y << endl;
 				enemyPoints++;
 			}
 			else
 			{
-				cout << "did not fucking hit on: " << responsePosition.x << " x " << responsePosition.y << endl;
+				cout << "Missed on: " << responsePosition.x << " x " << responsePosition.y << endl;
+			}
+			
+			if (enemyPoints >= 10) {
+				wonGame = false;
+				currentState = 3;
 			}
 			gameManager->flipTurn();
 		}
 	}
 	
+}
+
+void EndGame() {
+	sfmlWindow.draw(bgSprite);	
+	string text = wonGame ? "You won!!" : "You lost";
+	sf::Color textColor = wonGame ? sf::Color::Green : sf::Color::Red;
+	sf::Text Result(text, MyFont, 150);
+	Result.setFillColor(textColor);
+	Result.setPosition((width / 2) - Result.getGlobalBounds().width / 2, (height/2) - Result.getGlobalBounds().width/2);
+	sfmlWindow.draw(Result);
 }
 
 //Chamar isso enquanto um dos clientes estiver selecionando a posição pra mandar a bomba
@@ -700,50 +662,6 @@ void selectionLoopServer()
 }
 
 //END SFML
-
-//N�o usar essa fun��o. Usar interface para criar as battleships a setar elas.
-void initPlayers()
-{
-	Battleship battleship1, battleship2, battleship3, battleship4;
-	Position position;
-
-	position.x = 5;
-	position.y = 0;
-	position.alive = true;
-	battleship1.addPosition(position);
-
-	battleships1.push_back(battleship1);
-
-	//=============================
-
-	position.x = 6;
-	position.y = 5;
-	position.alive = true;
-	battleship2.addPosition(position);
-
-	battleships2.push_back(battleship2);
-
-	//==============================================
-	//==============================================
-
-	position.x = 4;
-	position.y = 1;
-	position.alive = true;
-	battleship3.addPosition(position);
-	battleships1.push_back(battleship3);
-
-	//=============================
-
-	position.x = 3;
-	position.y = 0;
-	position.alive = true;
-	battleship4.addPosition(position);
-	battleships2.push_back(battleship4);
-
-	//server.initPlayersBattleships(battleships1, battleships2);
-
-	//drawMatrixFromBattleships(battleships1);
-}
 
 void syncBattleships()
 {
@@ -758,8 +676,6 @@ void syncBattleships()
 			server.addPositionToPlayerBattleships(2);
 		}
 
-		//drawMatrixFromBattleships(gameManager->getPlayer1()->getBattleships());
-		//drawMatrixFromBattleships(gameManager->getPlayer2()->getBattleships());
 	}
 	break;
 	case 1:
@@ -793,7 +709,7 @@ void doConnectionConfiguration()
 	{ // server
 		gameManager = server.getGameManager();
 		server.initServer();
-		//server.waitForBattleships();
+
 	}
 	break;
 	case 1:
@@ -801,8 +717,7 @@ void doConnectionConfiguration()
 		gameManager = new GameManager();
 		client1.setPlayer(&player);
 		client1.initClient(2000);
-		//player.initBattleships(battleships1);
-		//client1.sendBattleshipsToServer();
+
 	}
 	break;
 	case 2:
@@ -810,8 +725,7 @@ void doConnectionConfiguration()
 		gameManager = new GameManager();
 		client2.setPlayer(&player);
 		client2.initClient(2001);
-		//player.initBattleships(battleships2);
-		//client2.sendBattleshipsToServer();
+
 	}
 	break;
 	}
@@ -821,9 +735,8 @@ void doConnectionConfiguration()
 
 int main()
 {
-	//string connectionType;
 
-	//initPlayers();
+
 	bool configured = false;
 
 	//SFML stuff
@@ -866,8 +779,6 @@ int main()
 			if (event.type == sf::Event::Closed)
 				sfmlWindow.close();
 		}
-		//if (sf::Event::MouseButtonPressed)
-		//	mouseFunc(event);
 
 		switch (currentState)
 		{
@@ -892,7 +803,6 @@ int main()
 			}
 			else
 			{
-				//sfmlWindow.clear(sf::Color::Black);
 				server.waitForBattleships();
 				currentState = 2;
 			}
@@ -901,25 +811,22 @@ int main()
 		case 2:
 		{
 			sfmlWindow.clear(sf::Color::Black);
+			
 
-	
-			gameLoop(connectionType);
+			// run it
+
+			gameLoop();
 			if (connectionType != 0) {
 				selectionLoopClient();
 			}
 			else {
 				selectionLoopServer();
 			}
-			//	
-			//}
-			//	}
-			//else {
-			//	sfmlWindow.close();
-			//}
 		}
 		break;
 		case 3:
 		{
+			EndGame();
 		}
 		break;
 		}
@@ -927,6 +834,5 @@ int main()
 		sfmlWindow.display();
 	}
 
-	//system("pause");
 	return 0;
 }
