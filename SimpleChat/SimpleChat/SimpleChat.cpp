@@ -19,7 +19,7 @@ vector<Battleship> battleships2;
 
 //Add useless comment
 
-int height = 900, width = 800, xSize = 32, ySize = 32;
+int height = 900, width = 800, xSize = 32, ySize = 32, myPoints = 0, enemyPoints = 0;
 sf::RenderWindow sfmlWindow(sf::VideoMode(width, height, 32), "XXXX - Redes 2017/1");
 
 sf::Texture spaceshipTexture, explosionTexture, spaceTexture, bgTexture, gameOverTexture, creditsTexture, buttonTexture, crosshairTexture, wrongTexture;
@@ -473,9 +473,11 @@ void gameLoop(int client)
 	p2.y = 420;
 	stringstream points;
 	points << "Score: ";
-	points << "0 / 10";
+	points << myPoints;
+	points << " - ";
+	points << enemyPoints;
 	Score.setString(points.str());
-	Score.setPosition(10, height - 40);
+	Score.setPosition((width / 2) - Score.getGlobalBounds().width/2, height - 40);
 
 	if (connectionType == 1)
 	{
@@ -512,7 +514,8 @@ void gameLoop(int client)
 		initialY = 30;
 		drawEnemyMatrix();
 		initialY = 450;
-		drawMatrix(client1.getPlayer()->getBattleships());
+		//drawMatrix(client1.getPlayer()->getBattleships());
+		DrawLocalMatrix();
 	}
 	break;
 	case 2:
@@ -520,7 +523,8 @@ void gameLoop(int client)
 		initialY = 30;
 		drawEnemyMatrix();
 		initialY = 450;
-		drawMatrix(client2.getPlayer()->getBattleships());
+		//drawMatrix(client2.getPlayer()->getBattleships());
+		DrawLocalMatrix();
 	}
 	break;
 	}
@@ -617,12 +621,13 @@ void selectionLoopClient()
 			if (responsePosition.alive)
 			{
 				enemyMatrix[crosshairPosition.x][crosshairPosition.y] = 'X'; 
-				cout << "Fucking hit on: " << pos.x << " x " << pos.y << endl;
+				cout << "Fucking hit on: " << responsePosition.x << " x " << responsePosition.y << endl;
+				myPoints++;
 			}
 			else
 			{
 				enemyMatrix[crosshairPosition.x][crosshairPosition.y] = 'W';
-				cout << "did not fucking hit on: " << pos.x << " x " << pos.y << endl;
+				cout << "did not fucking hit on: " << responsePosition.x << " x " << responsePosition.y << endl;
 			}
 			shotFired = false;
 			gameManager->flipTurn();
@@ -632,12 +637,13 @@ void selectionLoopClient()
 			cout << "got packet" << endl;
 			if (responsePosition.alive)
 			{
-				matrix[pos.x][pos.y] = 'X';
-				cout << "Fucking hit on: " << pos.x << " x " << pos.y << endl;
+				matrix[responsePosition.x][responsePosition.y] = 'X';
+				cout << "Fucking hit on: " << responsePosition.x << " x " << responsePosition.y << endl;
+				enemyPoints++;
 			}
 			else
 			{
-				cout << "did not fucking hit on: " << pos.x << " x " << pos.y << endl;
+				cout << "did not fucking hit on: " << responsePosition.x << " x " << responsePosition.y << endl;
 			}
 			gameManager->flipTurn();
 		}
@@ -655,12 +661,13 @@ void selectionLoopClient()
 			if (responsePosition.alive)
 			{
 				enemyMatrix[crosshairPosition.x][crosshairPosition.y] = 'X';
-				cout << "Fucking hit on: " << pos.x << " x " << pos.y << endl;
+				cout << "Fucking hit on: " << responsePosition.x << " x " << responsePosition.y << endl;
+				myPoints++;
 			}
 			else
 			{
 				enemyMatrix[crosshairPosition.x][crosshairPosition.y] = 'W';
-				cout << "did not fucking hit on: " << pos.x << " x " << pos.y << endl;
+				cout << "did not fucking hit on: " << responsePosition.x << " x " << responsePosition.y << endl;
 			}
 			shotFired = false;
 			gameManager->flipTurn();
@@ -671,12 +678,13 @@ void selectionLoopClient()
 			cout << "got packet" << endl;
 			if (responsePosition.alive)
 			{
-				matrix[pos.x][pos.y] = 'X';
-				cout << "Fucking hit on: " << pos.x << " x " << pos.y << endl;
+				matrix[responsePosition.x][responsePosition.y] = 'X';
+				cout << "Fucking hit on: " << responsePosition.x << " x " << responsePosition.y << endl;
+				enemyPoints++;
 			}
 			else
 			{
-				cout << "did not fucking hit on: " << pos.x << " x " << pos.y << endl;
+				cout << "did not fucking hit on: " << responsePosition.x << " x " << responsePosition.y << endl;
 			}
 			gameManager->flipTurn();
 		}
