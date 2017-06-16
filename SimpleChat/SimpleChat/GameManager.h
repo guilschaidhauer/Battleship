@@ -13,7 +13,7 @@ public:
 
 	void handleMissileReceived(Position pos);
 	bool checkMissileHit(Position pos);
-	void flitTurn() { player1Turn = !player1Turn; };
+	void flipTurn() { player1Turn = !player1Turn; };
 	void setPlayer1Turn(bool status) { player1Turn = status; };
 	bool getPlayer1Turn() { return player1Turn; };
 

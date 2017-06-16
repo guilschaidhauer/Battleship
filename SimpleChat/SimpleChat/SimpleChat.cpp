@@ -625,6 +625,21 @@ void selectionLoopClient()
 				cout << "did not fucking hit on: " << pos.x << " x " << pos.y << endl;
 			}
 			shotFired = false;
+			gameManager->flipTurn();
+			return;
+		}else if (!gameManager->getPlayer1Turn()) {
+			Position responsePosition = client1.waitForMissileResponse();
+			cout << "got packet" << endl;
+			if (responsePosition.alive)
+			{
+				matrix[pos.x][pos.y] = 'X';
+				cout << "Fucking hit on: " << pos.x << " x " << pos.y << endl;
+			}
+			else
+			{
+				cout << "did not fucking hit on: " << pos.x << " x " << pos.y << endl;
+			}
+			gameManager->flipTurn();
 		}
 	}
 	else if (connectionType == 2)
@@ -639,23 +654,41 @@ void selectionLoopClient()
 			cout << "got packet" << endl;
 			if (responsePosition.alive)
 			{
+				enemyMatrix[crosshairPosition.x][crosshairPosition.y] = 'X';
+				cout << "Fucking hit on: " << pos.x << " x " << pos.y << endl;
+			}
+			else
+			{
+				enemyMatrix[crosshairPosition.x][crosshairPosition.y] = 'W';
+				cout << "did not fucking hit on: " << pos.x << " x " << pos.y << endl;
+			}
+			shotFired = false;
+			gameManager->flipTurn();
+			return;
+		}
+		else if (gameManager->getPlayer1Turn()) {
+			Position responsePosition = client2.waitForMissileResponse();
+			cout << "got packet" << endl;
+			if (responsePosition.alive)
+			{
+				matrix[pos.x][pos.y] = 'X';
 				cout << "Fucking hit on: " << pos.x << " x " << pos.y << endl;
 			}
 			else
 			{
 				cout << "did not fucking hit on: " << pos.x << " x " << pos.y << endl;
 			}
-			shotFired = false;
+			gameManager->flipTurn();
 		}
 	}
-	//gameManager->flitTurn();
+	
 }
 
 //Chamar isso enquanto um dos clientes estiver selecionando a posição pra mandar a bomba
 void selectionLoopServer()
 {
 	server.waitForMissile();
-	gameManager->flitTurn();
+	gameManager->flipTurn();
 }
 
 //END SFML

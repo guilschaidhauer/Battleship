@@ -156,8 +156,6 @@ void Server::sendMissileResponse(Position position)
 {
 	sf::Packet packet;
 	packet << position.alive << position.x << position.y;
-	if (gameManager.getPlayer1Turn())
-		socket1.send(packet);
-	else
-		socket2.send(packet);
+	socket1.send(packet);
+	socket2.send(packet);
 }
